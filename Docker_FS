@@ -21,6 +21,7 @@ COPY go.mod go.sum ./
 # move Resumemanagement folder to current work dir.
 # when you build image you need to bind a local directory with docker container work dir.
 COPY ./ ./
+COPY ImageDir /usr/src/app/ImageDir
 #RUN go mod download && go mod verify
 
 EXPOSE 8770
