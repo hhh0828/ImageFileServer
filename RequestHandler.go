@@ -6,7 +6,7 @@ func FileserverHandler() *http.ServeMux {
 
 	mux := http.NewServeMux()
 	//mux.HandleFunc("/"+imgsrc, Returnimagefile)
-
+	mux.HandleFunc("/chart", Chartserving)
 	Fileserver := http.FileServer(http.Dir("./ImageDir"))
 	mux.Handle("/", http.StripPrefix("/", Fileserver))
 
