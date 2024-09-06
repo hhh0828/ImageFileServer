@@ -58,7 +58,8 @@ func ImageResizer(str string) string {
 	//해당경로에 파일을만들고
 	resiezedimgfile, _ := os.Create(resizedfilepath)
 	defer resiezedimgfile.Close()
-	newresizedfilepath := fmt.Sprintf("ImageDir/%s.png", newname)
+	//파일의이름만들어가야함
+	newresizedfilepath := fmt.Sprintf("%s.png", newname)
 	//리사이즈된 이미지 엔코드 해주고
 	png.Encode(resiezedimgfile, resizedimg)
 
