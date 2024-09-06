@@ -22,7 +22,6 @@ COPY go.mod go.sum ./
 # when you build image you need to bind a local directory with docker container work dir.
 COPY ./ ./
 COPY ImageDir /usr/src/app/ImageDir
-COPY ChartsDir /usr/src/app/ChartsDir
 #RUN go mod download && go mod verify
 
 EXPOSE 8770
