@@ -58,7 +58,7 @@ func ImageResizer(str string) string {
 	//해당경로에 파일을만들고
 	resiezedimgfile, _ := os.Create(resizedfilepath)
 	defer resiezedimgfile.Close()
-
+	newresizedfilepath := fmt.Sprintf("ImageDir/%s.png", newname)
 	//리사이즈된 이미지 엔코드 해주고
 	png.Encode(resiezedimgfile, resizedimg)
 
@@ -66,5 +66,5 @@ func ImageResizer(str string) string {
 
 	//끝 Desired State > ImageDir에 UUID.png파일 이있어야함
 	fmt.Println("the image that you has input has been encoded with new size png file.")
-	return resizedfilepath
+	return newresizedfilepath
 }
