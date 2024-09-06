@@ -81,7 +81,7 @@ func ImageUpload(w http.ResponseWriter, r *http.Request) {
 	finalfile := ImageResizer(filePath)
 
 	// multipart.fileheader 객체로부터 파일이름을 반환한 후 URL 반환
-	fileUrl := fmt.Sprintf("http://172.17.0.4:8770/%s", finalfile)
+	fileUrl := fmt.Sprintf("https://www.hyunhoworld.site/files/%s", finalfile)
 	w.Header().Set("Content-Type", "application/json")
 	Webappserver := "http://172.17.0.3:8700/imageurlsaverequest"
 	project.Name = r.FormValue("name")
