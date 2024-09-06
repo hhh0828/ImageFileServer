@@ -83,7 +83,7 @@ func ImageUpload(w http.ResponseWriter, r *http.Request) {
 	// multipart.fileheader 객체로부터 파일이름을 반환한 후 URL 반환
 	fileUrl := fmt.Sprintf("172.0.0.4/%s", finalfile)
 	w.Header().Set("Content-Type", "application/json")
-	Webappserver := "172.0.0.3/Imageurlsaverequest"
+	Webappserver := "http://172.0.0.3/Imageurlsaverequest"
 	project.Name = r.FormValue("name")
 	project.Shortdesc = r.FormValue("shortdesc")
 	project.Longdesc = r.FormValue("longdesc")
