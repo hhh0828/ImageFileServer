@@ -7,6 +7,7 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"strings"
 
 	"github.com/labstack/gommon/log"
 )
@@ -44,10 +45,37 @@ func Chartserving(w http.ResponseWriter, r *http.Request) {
 방법 3 check - 데이터베이스를 만들어 거기서 고유정보를 저장하여 비교하여 전달...
 포인트 : 이미지파일을 저장할때, 이거를 식별 할 수있는... 그런정보로 저장해야함 보통 이름으로하지만, 중복된 이름이 두개 올라갈경우 문제가 생겨서..const
 */
+//without image
+func UploadProject(w http.ResponseWriter, r *http.Request) {
+
+	var project Project
+
+	project.Name = r.FormValue("name")
+	project.Shortdesc = r.FormValue("shortdesc")
+	project.Longdesc = r.FormValue("longdesc")
+
+	w.Header().Set("Content-Type", "application/json")
+	Webappserver := "http://172.17.0.3:8700/uploadproject"
+	jsondata, err := json.Marshal(project)
+	if err != nil {
+		fmt.Println("error occured", err)
+	}
+	data, err := http.NewRequest("POST", Webappserver, bytes.NewBuffer(jsondata))
+	if err != nil {
+		fmt.Println("fatal error occured but can't stop server", err)
+	}
+	clicon, err := http.DefaultClient.Do(data)
+	if err != nil {
+		fmt.Println("error occured", clicon.StatusCode)
+	}
+	fmt.Println(clicon.StatusCode)
+
+}
+
 func ImageUpload(w http.ResponseWriter, r *http.Request) {
 	//GET 이미지 from http.request.
 
-	err := r.ParseMultipartForm(10)
+	err := r.ParseMultipartForm(20)
 	if err != nil {
 		log.Error("error during parse data", err)
 	}
@@ -58,16 +86,22 @@ func ImageUpload(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		http.Error(w, "Error retrieving the file", http.StatusBadRequest)
 		return
+	} else if imagefile == nil {
+		UploadProject(w, r)
+		return
+
 	}
 	defer imagefile.Close()
 
 	//이름뿐인 파일 생성
+	fmt.Println("here is working? if i didn't upload image on the post request? ")
 	filePath := "./TempDir/" + handler.Filename
 	dst, err := os.Create(filePath)
 	if err != nil {
 		http.Error(w, "Error saving the file", http.StatusInternalServerError)
 		return
 	}
+	fmt.Println("the tempfile created", handler.Filename)
 	defer dst.Close()
 
 	//컨텐츠를 카피한다.
@@ -102,5 +136,16 @@ func ImageUpload(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("something wrong happened", err)
 	}
 	fmt.Println(serveranswer.StatusCode)
+
+}
+
+// ImageDelete API -
+func ImageDelete(w http.ResponseWriter, r *http.Request) {
+
+	var project Project
+	json.NewDecoder(r.Body).Decode(&project)
+	//https://www.hyunhoworld.site/files/8afbf97f-8824-4685-8cdc-4936986b67ca.png URL 형식
+	fileuuid := "./ImageDir/" + strings.TrimLeft(project.Imgurl, "https://www.hyunhoworld.site/files/")
+	os.Remove(fileuuid)
 
 }
