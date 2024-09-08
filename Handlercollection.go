@@ -86,7 +86,8 @@ func ImageUpload(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		http.Error(w, "Error retrieving the file", http.StatusBadRequest)
 		return
-	} else if imagefile == nil {
+	}
+	if imagefile == nil {
 		UploadProject(w, r)
 		return
 
