@@ -24,7 +24,7 @@ func ImageResizer(str string) string {
 	}
 	defer file.Close()
 	//디코드 하고고
-	decodedfile, _, _ := image.Decode(file)
+	decodedfile, _, err := image.Decode(file)
 	if err != nil {
 		log.Fatal("fatal error occured", err)
 	}
