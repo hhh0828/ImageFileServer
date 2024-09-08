@@ -47,7 +47,7 @@ func Chartserving(w http.ResponseWriter, r *http.Request) {
 */
 //without image
 func UploadProject(w http.ResponseWriter, r *http.Request) {
-
+	fmt.Println("without image uploading")
 	var project Project
 
 	project.Name = r.FormValue("name")
@@ -83,10 +83,6 @@ func ImageUpload(w http.ResponseWriter, r *http.Request) {
 	var project Project
 
 	imagefile, handler, err := r.FormFile("image")
-	if err != nil {
-		http.Error(w, "Error retrieving the file", http.StatusBadRequest)
-		return
-	}
 	if imagefile == nil {
 		fmt.Println(r.FormFile("image"))
 		fmt.Println("currently there's no imagedata")
@@ -94,6 +90,11 @@ func ImageUpload(w http.ResponseWriter, r *http.Request) {
 		return
 
 	}
+	if err != nil {
+		http.Error(w, "Error retrieving the file", http.StatusBadRequest)
+		return
+	}
+
 	defer imagefile.Close()
 
 	//이름뿐인 파일 생성
