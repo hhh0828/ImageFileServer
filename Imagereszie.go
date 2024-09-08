@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"image"
+	_ "image/jpeg"
 	"image/png"
 	"log"
 	"os"
@@ -24,10 +25,11 @@ func ImageResizer(str string) string {
 	}
 	defer file.Close()
 	//디코드 하고고
-	decodedfile, _, err := image.Decode(file)
+	decodedfile, format, err := image.Decode(file)
 	if err != nil {
 		log.Fatal("fatal error occured", err)
 	}
+	fmt.Println("imagetype:", format)
 	//이미지 리사이즈 해주고
 	resizedimg := resize.Resize(300, 400, decodedfile, resize.Lanczos3)
 
