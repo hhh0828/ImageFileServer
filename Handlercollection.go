@@ -82,14 +82,14 @@ func ImageUpload(w http.ResponseWriter, r *http.Request) {
 
 	var project Project
 
-	fmt.Println(r.FormFile("image"))
-
 	imagefile, handler, err := r.FormFile("image")
 	if err != nil {
 		http.Error(w, "Error retrieving the file", http.StatusBadRequest)
 		return
 	}
 	if imagefile == nil {
+		fmt.Println(r.FormFile("image"))
+		fmt.Println("currently there's no imagedata")
 		UploadProject(w, r)
 		return
 
