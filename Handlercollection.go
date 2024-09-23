@@ -17,6 +17,7 @@ type Project struct {
 	Shortdesc string `json:"shortdesc"`
 	Longdesc  string `json:"longdesc"`
 	Imgurl    string `json:"imgurl"`
+	DetailUrl string `json:"detailurl"`
 }
 
 type Imageurl struct {
@@ -126,6 +127,7 @@ func ImageUpload(w http.ResponseWriter, r *http.Request) {
 	project.Shortdesc = r.FormValue("shortdesc")
 	project.Longdesc = r.FormValue("longdesc")
 	project.Imgurl = fileUrl
+	project.DetailUrl = r.FormValue("detailurl")
 	jsonbytedata, err := json.Marshal(&project)
 	if err != nil {
 		fmt.Println("fatal error occured but can't stop server", err)
